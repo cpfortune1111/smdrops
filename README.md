@@ -7,6 +7,12 @@ The current repository contains an original-visual Match-3 web core, a
 read-only stage converter, and technical notes derived from analysis of a
 locally preserved Android asset dump.
 
+## Live demo
+
+Play it directly on GitHub Pages:
+
+**https://cpfortune1111.github.io/smdrops/**
+
 ## Current playable core
 
 - Loads the converted `lvl_F_0001_00` stage JSON
