@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#241a57">
+  <title>Moonlit Match — SMD Web Core</title>
+  <meta name="description" content="A private, original-media web remake prototype for studying the Sailor Moon Drops game systems.">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <div class="sky" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+  <main class="shell">
+    <header class="topbar">
+      <div class="brand">
+        <span class="brand-mark">✦</span>
+        <div><p>PRIVATE REMAKE LAB</p><h1>Moonlit Match</h1></div>
+      </div>
+      <nav class="chapter-tabs" aria-label="遊戲模式">
+        <button class="tab active" data-panel="play">關卡</button>
+        <button class="tab" data-panel="collection">收藏</button>
+        <button class="tab" data-panel="research">研究</button>
+      </nav>
+    </header>
+
+    <section id="play-panel" class="panel active">
+      <aside class="mission-card glass">
+        <div class="episode-label">ORIGINAL DATA · FIRST ARC</div>
+        <div class="stage-heading">
+          <span id="stage-number">1</span>
+          <div><small>STAGE</small><h2 id="stage-title">Moonlit Beginning</h2></div>
+        </div>
+        <div class="objective-box">
+          <span class="objective-icon">◎</span>
+          <div><small>MISSION</small><strong id="objective-label">取得 1,000 分</strong></div>
+        </div>
+        <div class="stats-grid">
+          <div><small>剩餘步數</small><strong id="moves">11</strong></div>
+          <div><small>分數</small><strong id="score">0</strong></div>
+        </div>
+        <div class="star-track" aria-label="三星進度">
+          <div id="star-progress"></div><i>★</i><i>★</i><i>★</i>
+        </div>
+        <div class="thresholds"><span id="bronze">1,000</span><span id="silver">1,300</span><span id="gold">1,600</span></div>
+        <div id="target-list" class="target-list" aria-live="polite"></div>
+        <button id="restart" class="secondary">重新開始</button>
+      </aside>
+
+      <section class="game-card">
+        <div class="game-toolbar glass">
+          <label>測試關卡
+            <select id="stage-select">
+              <option value="score">原版資料：第一關</option>
+              <option value="collect">系統測試：收集棋子</option>
+              <option value="clean">系統測試：清除障礙</option>
+            </select>
+          </label>
+          <span id="combo" class="combo-pill">READY</span>
+        </div>
+        <div class="board-frame">
+          <div class="moon-corner" aria-hidden="true">☾</div>
+          <div id="board" class="board" role="grid" aria-label="三消棋盤"></div>
+          <div id="float-layer" aria-hidden="true"></div>
+        </div>
+        <div class="character-dock glass">
+          <div class="portrait" aria-hidden="true"><span>✧</span></div>
+          <div class="skill-copy"><small>ORIGINAL CHARACTER SLOT</small><strong>Astra · Starlight Sweep</strong><div class="skill-meter"><i id="skill-fill"></i></div></div>
+          <button id="skill-button" disabled>技能</button>
+        </div>
+      </section>
+
+      <aside class="system-card glass">
+        <h3>System status</h3>
+        <div class="status-line"><span>關卡格式</span><b>JSON v1</b></div>
+        <div class="status-line"><span>棋盤</span><b id="board-size">11×11 / 7×9</b></div>
+        <div class="status-line"><span>連鎖處理</span><b>ACTIVE</b></div>
+        <div class="divider"></div>
+        <h3>Prototype scope</h3>
+        <ul class="feature-list">
+          <li class="done">交換與合法移動</li><li class="done">消除、跌落、補充</li>
+          <li class="done">四連／五連／爆破棋</li><li class="done">分數、收集、清障</li>
+          <li class="done">技能充能介面</li><li>角色育成資料</li><li>活動地圖及獎勵</li>
+        </ul>
+      </aside>
+    </section>
+
+    <section id="collection-panel" class="panel single-panel">
+      <div class="collection-card glass">
+        <div><p class="eyebrow">PUZZLE COLLECTION</p><h2>星夜回憶</h2><p>每次首次通關取得一塊 Puzzle Piece。集齊三塊後解鎖原創 Wallpaper 槽位。</p></div>
+        <div id="puzzle-grid" class="puzzle-grid" aria-label="Wallpaper puzzle pieces"></div>
+        <div id="wallpaper" class="wallpaper locked"><span>☾</span><strong id="wallpaper-label">尚欠 3 塊</strong></div>
+      </div>
+    </section>
+
+    <section id="research-panel" class="panel single-panel">
+      <div class="research-card glass">
+        <p class="eyebrow">DATA ADAPTER</p><h2>已接入真實關卡格式</h2>
+        <p>目前第一關直接載入由 APK dump 轉換所得的 <code>lvl_F_0001_00</code> JSON。遊戲只讀取 catalog 定義，角色、獎勵與活動會透過獨立 ID 接合。</p>
+        <dl><div><dt>Stage identity</dt><dd id="identity-readout">SM_FIRST / 1-0</dd></div><div><dt>Win / Lose</dt><dd id="rules-readout">SCORE / MOVES</dd></div><div><dt>Source integrity</dt><dd id="hash-readout">SHA-256 verified</dd></div></dl>
+      </div>
+    </section>
+  </main>
+
+  <dialog id="result-dialog">
+    <div class="result-burst">✦</div><p id="result-kicker">STAGE CLEAR</p><h2 id="result-title">Mission Complete!</h2><div id="result-stars" class="result-stars">★★★</div><p id="result-summary"></p><button id="result-close">繼續研究</button>
+  </dialog>
+
+  <script type="module" src="./game.js"></script>
+</body>
+</html>
+
